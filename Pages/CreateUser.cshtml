@@ -1,0 +1,48 @@
+﻿@page
+@model KanBan.Pages.CreateUserModel
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h2>Create User</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="User.FirstName" class="control-label"></label>
+        <input asp-for="User.FirstName" class="form-control" required />
+        <span asp-validation-for="User.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.LastName" class="control-label"></label>
+        <input asp-for="User.LastName" class="form-control" required />
+        <span asp-validation-for="User.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.Email" class="control-label"></label>
+        <input asp-for="User.Email" class="form-control" required />
+        <span asp-validation-for="User.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.Password" class="control-label"></label>
+        <input asp-for="User.Password" type="password" class="form-control" required />
+        <span asp-validation-for="User.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.Role" class="control-label"></label>
+        <input asp-for="User.Role" class="form-control" />
+        <span asp-validation-for="User.Role" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create User</button>
+    <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

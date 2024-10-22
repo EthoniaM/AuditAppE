@@ -1,0 +1,148 @@
+﻿@page "{auditId:int?}"
+@model KanBan.Pages.KanbanBoardModel
+@{
+    ViewData["Title"] = "Kanban Board";
+    var notStartedCount = Model.KanbanTasks.Count(t => t.Status == "Not Started");
+    var inProgressCount = Model.KanbanTasks.Count(t => t.Status == "In Progress");
+    var completedCount = Model.KanbanTasks.Count(t => t.Status == "Completed");
+}
+
+<div class="container">
+    <div class="d-flex align-items-center mb-3">
+        <h2 class="mb-0 d-inline">Kanban Board</h2>
+        <a asp-page="/CreateTask" asp-route-auditId="@Model.AuditID" class="btn btn-success ms-2 d-inline">Add Task</a>
+    </div>
+
+    <div class="row">
+        <!-- Not Started Column -->
+        <div class="col-md-4 kanban-column" data-status="Not Started">
+            <div class="status-header">Not Started (@notStartedCount)</div>
+            <div class="kanban-tasks">
+                @foreach (var task in Model.KanbanTasks.Where(t => t.Status == "Not Started"))
+                {
+                    <div class="card mb-3 kanban-task" data-task-id="@task.KanBanID" draggable="true">
+                        <div class="dots-menu" onclick="toggleDropdown(event, this)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </div>
+
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu">
+                            <a href="@Url.Page("/UpdateTask", new { kanbanId = task.KanBanID })" class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            <a href="@Url.Page("/DeleteTask", new { Id  = task.KanBanID })" class="dropdown-item">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                            <a href="@Url.Page("/CreateTask", new { auditId = Model.AuditID })" class="dropdown-item">
+                                <i class="fas fa-plus-circle"></i> Add People
+                            </a>
+                        </div>
+
+                        <!-- Badge -->
+                        <div class="badge-container">
+                            <div class="badge @Model.GetPriorityClass(task.Priority)">
+                                @task.Priority
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-0 kanban-task-details">
+                            <li><strong>Task Title:</strong> @task.TaskTitle</li>
+                            <li><strong>Task Description:</strong> @task.TaskDescription</li>
+                            <li><strong>Start Date:</strong> @(task.StartDate.HasValue ? task.StartDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                            <li><strong>End Date:</strong> @(task.EndDate.HasValue ? task.EndDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- In Progress Column -->
+        <div class="col-md-4 kanban-column" data-status="In Progress">
+            <div class="status-header">In Progress (@inProgressCount)</div>
+            <div class="kanban-tasks">
+                @foreach (var task in Model.KanbanTasks.Where(t => t.Status == "In Progress"))
+                {
+                    <div class="card mb-3 kanban-task" data-task-id="@task.KanBanID" draggable="true">
+                        <div class="dots-menu" onclick="toggleDropdown(event, this)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </div>
+
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu">
+                            <a href="@Url.Page("/UpdateTask", new { kanbanId = task.KanBanID })" class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            <a href="@Url.Page("/DeleteTask", new { Id = task.KanBanID })" class="dropdown-item">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+
+                            <a href="@Url.Page("/CreateTask", new { auditId = Model.AuditID })" class="dropdown-item">
+                                <i class="fas fa-plus-circle"></i> Add People
+                            </a>
+                        </div>
+
+                        <!-- Badge -->
+                        <div class="badge-container">
+                            <div class="badge @Model.GetPriorityClass(task.Priority)">
+                                @task.Priority
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-0 kanban-task-details">
+                            <li><strong>Task Title:</strong> @task.TaskTitle</li>
+                            <li><strong>Task Description:</strong> @task.TaskDescription</li>
+                            <li><strong>Start Date:</strong> @(task.StartDate.HasValue ? task.StartDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                            <li><strong>End Date:</strong> @(task.EndDate.HasValue ? task.EndDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Completed Column -->
+        <div class="col-md-4 kanban-column" data-status="Completed">
+            <div class="status-header">Completed (@completedCount)</div>
+            <div class="kanban-tasks">
+                @foreach (var task in Model.KanbanTasks.Where(t => t.Status == "Completed"))
+                {
+                    <div class="card mb-3 kanban-task" data-task-id="@task.KanBanID" draggable="true">
+                        <div class="dots-menu" onclick="toggleDropdown(event, this)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </div>
+
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu">
+                            <a href="@Url.Page("/UpdateTask", new { kanbanId = task.KanBanID })" class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            <a href="@Url.Page("/DeleteTask", new { Id = task.KanBanID })" class="dropdown-item">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                            <a href="@Url.Page("/CreateTask", new { auditId = Model.AuditID })" class="dropdown-item">
+                                <i class="fas fa-plus-circle"></i> Add People
+                            </a>
+                        </div>
+
+                        <!-- Badge -->
+                        <div class="badge-container">
+                            <div class="badge @Model.GetPriorityClass(task.Priority)">
+                                @task.Priority
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-0 kanban-task-details">
+                            <li><strong>Task Title:</strong> @task.TaskTitle</li>
+                            <li><strong>Task Description:</strong> @task.TaskDescription</li>
+                            <li><strong>Start Date:</strong> @(task.StartDate.HasValue ? task.StartDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                            <li><strong>End Date:</strong> @(task.EndDate.HasValue ? task.EndDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/kanban.js"></script>
+}

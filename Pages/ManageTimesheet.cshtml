@@ -1,0 +1,41 @@
+﻿@page
+@model KanBan.Pages.ManageTimesheetModel
+@{
+    ViewData["Title"] = "Manage Timesheets";
+}
+
+<a href="/Timesheet">Add New Timesheet</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Hours</th>
+            <th>Activity</th>
+            <th>IsAudit</th>
+            <th>AuditPhase</th>
+            <th>UsersID</th>
+            <th>AuditID</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var timesheet in Model.Timesheets)
+        {
+            <tr>
+                <td>@timesheet.Date.ToString("ddd dd MMM yyyy")</td>
+                <td>@timesheet.Hours</td>
+                <td>@timesheet.Activity</td>
+                <td>@timesheet.IsAudit</td>
+                <td>@timesheet.AuditPhase</td>
+                <td>@timesheet.UsersID</td>
+                <td>@timesheet.AuditID</td>
+                <td>
+                    <a asp-page="./EditTimesheet" asp-route-id="@timesheet.TimesheetID">Edit</a>
+                    <a asp-page="./DeleteTimesheet" asp-route-id="@timesheet.TimesheetID">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

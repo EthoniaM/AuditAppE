@@ -1,0 +1,30 @@
+﻿@page
+@model KanBan.Pages.KanbanDetailsListModel
+
+<p>
+    <a asp-page="./CreateKanbanDetail">Create a Ticket</a>
+</p>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kanban ID</th>
+            <th>Comments</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.KanbanDetailsList)
+        {
+            <tr>
+                <td>@item.KanbanDetailsID</td>
+                <td>@item.KanbanID</td>
+                <td>@item.Comments</td>
+                <td>
+                    <a asp-page="/EditKanbanDetail" asp-route-id="@item.KanbanDetailsID">Edit</a>
+                    <a asp-page="/DeleteKanbanDetail" asp-route-id="@item.KanbanDetailsID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

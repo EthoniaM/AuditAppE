@@ -1,0 +1,56 @@
+﻿@page
+@model KanBan.Pages.ActivityandAuditPhaseModel
+@{
+    ViewData["Title"] = "Manage Timesheet Activities and Audit Phases";
+}
+<h2>Manage Timesheet Activities and Audit Phases</h2>
+
+<div>
+    <!-- Form for Adding Timesheet Activity -->
+    <h3>Add Timesheet Activity</h3>
+    <form method="post" asp-page-handler="AddActivity">
+        <div class="form-group">
+            <label asp-for="Activity" class="control-label"></label>
+            <input asp-for="Activity" class="form-control" />
+            <span asp-validation-for="Activity" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Activity</button>
+    </form>
+</div>
+
+<div>
+    <!-- Form for Adding Timesheet Audit Phase -->
+    <h3>Add Timesheet Audit Phase</h3>
+    <form method="post" asp-page-handler="AddAuditPhase">
+        <div class="form-group">
+            <label asp-for="AuditPhase" class="control-label"></label>
+            <input asp-for="AuditPhase" class="form-control" />
+            <span asp-validation-for="AuditPhase" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Audit Phase</button>
+    </form>
+</div>
+
+<div>
+    <h3>Current Activities</h3>
+    <ul>
+        @foreach (var activity in Model.TimesheetActivities)
+        {
+            <li>@activity.Activity</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Current Audit Phases</h3>
+    <ul>
+        @foreach (var auditPhase in Model.TimesheetAuditPhases)
+        {
+            <li>@auditPhase.AuditPhase</li>
+        }
+    </ul>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

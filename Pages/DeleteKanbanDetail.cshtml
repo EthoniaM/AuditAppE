@@ -1,0 +1,19 @@
+﻿@page "{id:int}"
+@model KanBan.Pages.DeleteKanbanDetailModel
+
+
+<h4>Delete KanbanDetails</h4>
+        <form method="post">
+            <input type="hidden" asp-for="KanbanDetail.KanbanDetailsID" />
+            <div class="form-group">
+                <p>Are you sure you want to delete this Kanban Detail?</p>
+                <p><strong>Kanban ID:</strong> @Model.KanbanDetail.KanbanID</p>
+                <p><strong>User ID:</strong> @Model.KanbanDetail.UsersID</p>
+                <p><strong>Comments:</strong> @Model.KanbanDetail.Comments</p>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a class="btn btn-secondary" asp-page="/KanbanDetailsList">Cancel</a>
+            </div>
+        </form>
+ 

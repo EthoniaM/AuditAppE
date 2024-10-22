@@ -1,0 +1,61 @@
+﻿@page "{id:int}"
+@model KanBan.Pages.EditTimesheetModel
+@{
+    ViewData["Title"] = "Edit Timesheet";
+}
+
+
+<h2>Edit Timesheet</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Timesheet.Date">Date</label>
+        <input asp-for="Timesheet.Date" class="form-control" />
+        <span asp-validation-for="Timesheet.Date" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Timesheet.Hours">Hours</label>
+        <input asp-for="Timesheet.Hours" class="form-control" />
+        <span asp-validation-for="Timesheet.Hours" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Timesheet.Activity">Activity</label>
+        <input asp-for="Timesheet.Activity" class="form-control" />
+   
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Timesheet.IsAudit">Is Audit</label>
+        <input asp-for="Timesheet.IsAudit" type="checkbox" class="form-check-input" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Timesheet.AuditPhase">Audit Phase</label>
+        <input asp-for="Timesheet.AuditPhase" class="form-control" />
+        <span asp-validation-for="Timesheet.AuditPhase" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Timesheet.UsersID">User ID</label>
+        <input asp-for="Timesheet.UsersID" class="form-control" />
+        <span asp-validation-for="Timesheet.UsersID" class="text-danger"></span>
+    </div>
+  
+
+    <div class="form-group">
+        <label asp-for="Timesheet.AuditID">Audit ID</label>
+        <input asp-for="Timesheet.AuditID" class="form-control" />
+        <span asp-validation-for="Timesheet.AuditID" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="Timesheet.TimesheetID" />
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-page="./ManageTimesheet" class="btn btn-secondary">Cancel</a>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

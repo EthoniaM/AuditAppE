@@ -1,0 +1,140 @@
+﻿@page
+@model KanBan.Pages.TimesheetModel
+@{
+    ViewData["Title"] = "Timesheet";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .form-control {
+        border-radius: 0.25rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        height: 3.5rem; 
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+        .table td, .table th {
+            padding: 0.5rem 0.75rem;
+        }
+
+        .table tbody tr {
+            height: 3.5rem;
+        }
+
+        .table tbody td, .form-control {
+            box-sizing: border-box;
+            padding: 0.5rem;
+            height: 3.5rem;
+        }
+
+    .dark-grey-select {
+        background-color: #f0f0f0;
+        color: #333;
+        width: 100%;
+    }
+
+        .dark-grey-select option {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+    .table-row {
+        border-bottom: 1px solid #dee2e6; 
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem; 
+        text-align: center; 
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-end; 
+        margin-top: 1rem;
+    }
+
+    .btn-manage {
+        margin-right: 1rem; 
+    }
+</style>
+
+<form method="post">
+    <div class="form-group text-center">
+        <label>Week Starting</label>
+        <input type="text" class="form-control dark-grey-select" value="@Model.WeekDate.ToString("ddd dd MMM yyyy")" disabled />
+    </div>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Activity Type</th>
+                    <th>Dynamic Options</th>
+                    <th>Audit Phase</th>
+                    <th>Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int j = 0; j < 7; j++)
+                {
+                    <tr class="table-row">
+                        <td>
+                            <small>@Model.WeekDate.AddDays(j).ToString("dd MMM")<br />@Model.WeekDate.AddDays(j).ToString("ddd")</small>
+                        </td>
+                        <td>
+                            <select id="SelectAuditActivity@(j)" name="Timesheets[@(j)].AuditOrActivityType" class="form-control dark-grey-select">
+                                <option value=""></option>
+                                <option value="Audit">Audit</option>
+                                <option value="Activity">Activity</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="SelectDynamicOptions@(j)" name="Timesheets[@(j)].DynamicID" class="form-control dark-grey-select">
+                                <option value=""></option>
+                                <!-- Populate options based on the selected Audit or Activity Type -->
+                            </select>
+                        </td>
+                        <td>
+                            <select id="SelectTimeSheetAuditPhase@(j)" name="Timesheets[@(j)].AuditPhase" class="form-control dark-grey-select " asp-items="Model.TimeSheetAuditPhaseOptions">
+                                <option value=""></option>
+                                <!-- Populate phases -->
+                            </select>
+                        </td>
+                        <td>
+                            <input type="hidden" name="Timesheets[@(j)].Date" value="@Model.WeekDate.AddDays(j).ToString("yyyy-MM-dd")" />
+                            <input type="number" min="0" max="24" class="form-control form-control-sm" name="Timesheets[@(j)].Hours"
+                                   value="@((Model.Timesheets != null && j < Model.Timesheets.Count) ? Model.Timesheets[j].Hours : "0")" required />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-container">
+        <a href="/ManageTimesheet" class="btn btn-secondary btn-manage">Manage Timesheet</a>
+        <button type="submit" class="btn btn-primary">Save Timesheet</button>
+    </div>
+</form>
+
+<script src="js/Timesheet.js"></script>
+

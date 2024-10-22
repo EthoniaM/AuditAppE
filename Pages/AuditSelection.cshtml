@@ -1,0 +1,22 @@
+﻿@page
+@model KanBan.Pages.AuditSelectionModel
+
+@{
+    ViewData["Title"] = "Select an Audit";
+}
+
+<h2>Select an Audit</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="auditSelect">Choose an Audit</label>
+        <select id="auditSelect" name="SelectedAuditID" class="form-control" required>
+            <option value="">Select an audit</option>
+            @foreach (var audit in Model.Audit)
+            {
+                <option value="@audit.AuditID">@audit.AuditTitle</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Go to Board</button>
+</form>
